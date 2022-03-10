@@ -1,0 +1,7 @@
+This
+is
+a
+list
+of
+string
+values

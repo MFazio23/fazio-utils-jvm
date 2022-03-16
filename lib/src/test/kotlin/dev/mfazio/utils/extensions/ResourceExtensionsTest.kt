@@ -1,10 +1,6 @@
 package dev.mfazio.utils.extensions
 
-import org.junit.Test
-import kotlin.test.assertContentEquals
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
+import kotlin.test.*
 
 class ResourceExtensionsTest {
     @Test

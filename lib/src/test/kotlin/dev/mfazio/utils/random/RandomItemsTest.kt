@@ -1,6 +1,6 @@
 package dev.mfazio.utils.random
 
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertTrue
 
@@ -76,8 +76,6 @@ class RandomItemsTest {
 
         val lowCount = rollResults.values.minOrNull()?.toDouble() ?: 0.0
         val highCount = rollResults.values.maxOrNull()?.toDouble() ?: 0.0
-
-        println("Diff: ${(highCount - lowCount) / rollCountFactor}")
 
         assertTrue(rollResultThreshold >= (highCount - lowCount) / rollCountFactor)
     }

@@ -1,10 +1,10 @@
 package dev.mfazio.utils.extensions
 
-import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZonedDateTime
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -153,7 +153,7 @@ class DateTimeExtensionsTest {
         )
         assertEquals(
             "st",
-        now.withDayOfMonth(21).getOrdinalSuffix()
+            now.withDayOfMonth(21).getOrdinalSuffix()
         )
         assertEquals(
             "nd",
@@ -190,7 +190,7 @@ class DateTimeExtensionsTest {
         )
         assertEquals(
             "st",
-        now.withDayOfMonth(21).getOrdinalSuffix()
+            now.withDayOfMonth(21).getOrdinalSuffix()
         )
         assertEquals(
             "nd",
@@ -227,7 +227,7 @@ class DateTimeExtensionsTest {
         )
         assertEquals(
             "st",
-        now.withDayOfMonth(21).getOrdinalSuffix()
+            now.withDayOfMonth(21).getOrdinalSuffix()
         )
         assertEquals(
             "nd",

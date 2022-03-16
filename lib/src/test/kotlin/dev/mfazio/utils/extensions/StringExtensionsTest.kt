@@ -1,6 +1,6 @@
 package dev.mfazio.utils.extensions
 
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -25,6 +25,7 @@ class StringExtensionsTest {
         val nullString: String? = null
         assertFalse(nullString.isNotNullOrEmpty())
     }
+
     @Test
     fun `isNotNullOrBlank() is true with a normal string`() {
         assertTrue("This is a normal string".isNotNullOrBlank())

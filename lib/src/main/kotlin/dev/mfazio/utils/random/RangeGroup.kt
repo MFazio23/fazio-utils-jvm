@@ -5,19 +5,22 @@ import kotlin.random.Random
 data class RangeGroup<T>(
     val items: List<RangeItem<T>>,
     override val chance: Double? = null,
+    val total: Double = defaultTotal,
     private val random: Random = Random.Default,
 ) : RangeItem<T> {
 
     fun settleChances(): RangeGroup<T> {
         val defaultCount = items.count { item -> item.chance == null }
+        val currentTotal = items.filter { it.chance != null }.sumOf { item -> item.chance ?: 0.0 }
 
-        val remaining = defaultTotal -
-            items.filter { it.chance != null }.sumOf { item -> item.chance ?: 0.0 }
+        val remaining = if (defaultCount == 0) 0.0 else total - currentTotal
 
         val newItems = items.map { item ->
-            item.updateChance(
-                this.chance ?: (remaining / defaultCount)
-            )
+            if (defaultCount == 0) item else {
+                item.updateChance(
+                    item.chance ?: (remaining / defaultCount)
+                )
+            }
         }
 
         return this.copy(items = newItems)
@@ -27,20 +30,26 @@ data class RangeGroup<T>(
 
     override fun getItemValue(): T? {
         val totalChance = items.sumOf { it.chance ?: 0.0 }
-        return if (totalChance <= 0.0) {
-            items.firstOrNull()?.getItemValue()
-        } else {
-            random.nextDouble(totalChance).let { rand ->
-                items.fold(0.0) { start, item ->
-                    val startValue = (start + (item.chance ?: 0.0))
-                    if (rand < startValue) {
-                        return@let item.getItemValue()
+        return when {
+            items.all { (it.chance ?: 0.0) < 0.0 } -> {
+                null
+            }
+            totalChance <= 0.0 -> {
+                items.firstOrNull { (it.chance ?: 0.0) > 0.0 }?.getItemValue()
+            }
+            else -> {
+                random.nextDouble(totalChance).let { rand ->
+                    items.fold(0.0) { start, item ->
+                        val startValue = (start + (item.chance ?: 0.0))
+                        if (rand < startValue) {
+                            return@let item.getItemValue()
+                        }
+
+                        start + (item.chance ?: 0.0)
                     }
 
-                    start + (item.chance ?: 0.0)
+                    items.lastOrNull()?.getItemValue()
                 }
-
-                items.lastOrNull()?.getItemValue()
             }
         }
     }

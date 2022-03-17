@@ -16,4 +16,16 @@ class DayOfWeekExtensionsTest {
         assertTrue(DayOfWeek.SATURDAY.isWeekend())
         assertTrue(DayOfWeek.SUNDAY.isWeekend())
     }
+
+    @Test
+    fun `isWeekday is true for Wednesday and Friday`() {
+        assertTrue(DayOfWeek.WEDNESDAY.isWeekday())
+        assertTrue(DayOfWeek.FRIDAY.isWeekday())
+    }
+
+    @Test
+    fun `isWeekday is false for Saturday and Sunday`() {
+        assertFalse(DayOfWeek.SATURDAY.isWeekday())
+        assertFalse(DayOfWeek.SUNDAY.isWeekday())
+    }
 }

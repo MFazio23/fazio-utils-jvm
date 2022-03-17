@@ -253,7 +253,23 @@ class RangeGroupTest {
 
         @Test
         fun `Getting items with a default works as expected based on the random number`() {
-            fail()
+            val random = DoubleListRandom(listOf(55.0, 75.5, 22.3, 99.0, 38.2))
+
+            val rangeGroup = RangeGroup(
+                listOf(
+                    RangeValue("Item A", 23.3),
+                    RangeValue("Item B", 42.1),
+                    RangeValue("Item C", chance = null),
+                    RangeValue("Item D", 10.66),
+                ),
+                random = random
+            )
+
+            assertEquals("Item B", rangeGroup.getItemValue())
+            assertEquals("Item C", rangeGroup.getItemValue())
+            assertEquals("Item A", rangeGroup.getItemValue())
+            assertEquals("Item D", rangeGroup.getItemValue())
+            assertEquals("Item B", rangeGroup.getItemValue())
         }
     }
 
@@ -289,18 +305,27 @@ class RangeGroupTest {
 
         @Test
         fun `If all chances are null, return a random item`() {
+            val random = DoubleListRandom(listOf(55.0, 75.5, 22.3, 10.0, 38.2))
+
             val rangeGroup = RangeGroup(
                 listOf(
                     RangeValue("Item A"),
                     RangeValue("Item B", null),
                     RangeValue("Item C", chance = null),
                     RangeValue("Item D"),
-                )
+                ),
+                random = random
             )
 
-            val random =
+            assertTrue {
+                rangeGroup.settleChances().items.all { (it.chance ?: 0.0) == 25.0 }
+            }
 
+            assertEquals("Item C", rangeGroup.getItemValue())
+            assertEquals("Item D", rangeGroup.getItemValue())
             assertEquals("Item A", rangeGroup.getItemValue())
+            assertEquals("Item A", rangeGroup.getItemValue())
+            assertEquals("Item B", rangeGroup.getItemValue())
         }
 
         @Test

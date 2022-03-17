@@ -10,17 +10,14 @@ data class RangeGroup<T>(
 ) : RangeItem<T> {
 
     fun settleChances(): RangeGroup<T> {
-        val defaultCount = items.count { item -> item.chance == null }
-        val currentTotal = items.filter { it.chance != null }.sumOf { item -> item.chance ?: 0.0 }
+        val validItems = items.filter { (it.chance ?: 0.0) >= 0.0 }
+        val defaultCount = validItems.count { item -> item.chance == null }
+        val currentTotal = validItems.filter { it.chance != null }.sumOf { item -> item.chance ?: 0.0 }
 
         val remaining = if (defaultCount == 0) 0.0 else total - currentTotal
 
-        val newItems = items.map { item ->
-            if (defaultCount == 0) item else {
-                item.updateChance(
-                    item.chance ?: (remaining / defaultCount)
-                )
-            }
+        val newItems = validItems.map { item ->
+            if (defaultCount == 0) item else item.updateChance(item.chance ?: (remaining / defaultCount))
         }
 
         return this.copy(items = newItems)
@@ -28,18 +25,18 @@ data class RangeGroup<T>(
 
     override fun updateChance(newChance: Double) = this.copy(chance = newChance)
 
-    override fun getItemValue(): T? {
-        val totalChance = items.sumOf { it.chance ?: 0.0 }
+    override fun getItemValue(): T? = getItemValue(true)
+
+    fun getItemValue(shouldSettle: Boolean = true): T? {
+        val groupToUse = if (shouldSettle) this.settleChances() else this
+        val totalChance = groupToUse.items.sumOf { it.chance ?: 0.0 }
         return when {
-            items.all { (it.chance ?: 0.0) < 0.0 } -> {
+            groupToUse.items.all { (it.chance ?: 0.0) < 0.0 } || totalChance <= 0.0 -> {
                 null
-            }
-            totalChance <= 0.0 -> {
-                items.firstOrNull { (it.chance ?: 0.0) > 0.0 }?.getItemValue()
             }
             else -> {
                 random.nextDouble(totalChance).let { rand ->
-                    items.fold(0.0) { start, item ->
+                    groupToUse.items.fold(0.0) { start, item ->
                         val startValue = (start + (item.chance ?: 0.0))
                         if (rand < startValue) {
                             return@let item.getItemValue()
@@ -48,7 +45,7 @@ data class RangeGroup<T>(
                         start + (item.chance ?: 0.0)
                     }
 
-                    items.lastOrNull()?.getItemValue()
+                    groupToUse.items.lastOrNull()?.getItemValue()
                 }
             }
         }

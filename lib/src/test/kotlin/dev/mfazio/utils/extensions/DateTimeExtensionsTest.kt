@@ -21,18 +21,20 @@ class DateTimeExtensionsTest {
 
     @Test
     fun `isBetween() is true when date is equal to starting date`() {
-        val start = LocalDateTime.now().minusDays(6)
-        val end = LocalDateTime.now().plusHours(14)
-        val date = LocalDateTime.now().minusDays(6)
+        val now = LocalDateTime.now()
+        val start = now.minusDays(6)
+        val end = now.plusHours(14)
+        val date = now.minusDays(6)
 
         assertTrue(date.isBetween(start, end))
     }
 
     @Test
     fun `isBetween() is true when date is equal to end date`() {
-        val start = LocalDateTime.now().minusDays(6)
-        val end = LocalDateTime.now().plusHours(14)
-        val date = LocalDateTime.now().plusHours(14)
+        val now = LocalDateTime.now()
+        val start = now.minusDays(6)
+        val end = now.plusHours(14)
+        val date = now.plusHours(14)
 
         assertTrue(date.isBetween(start, end))
     }
@@ -67,6 +69,15 @@ class DateTimeExtensionsTest {
         val start = LocalDateTime.now().minusDays(6)
         val end = LocalDateTime.now().plusHours(14)
         val date = LocalDateTime.now().plusDays(5)
+
+        assertFalse(date.isBetween(start, end))
+    }
+
+    @Test
+    fun `isBetween() is false when start date is after end date`() {
+        val start = LocalDateTime.now().plusDays(6)
+        val end = LocalDateTime.now().plusHours(14)
+        val date = LocalDateTime.now().plusHours(7)
 
         assertFalse(date.isBetween(start, end))
     }

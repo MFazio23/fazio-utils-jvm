@@ -81,46 +81,6 @@ class CollectionExtensionsTest {
         assertTrue(filteredMap.isEmpty())
     }
 
-    @Test
-    fun `randomOrNull returns a valid value`() {
-        val testData = listOf(
-            846, 68466, 247, 381, 3, 484, 11, 180
-        )
-
-        assertTrue(testData.contains(testData.randomOrNull()))
-    }
-
-    @Test
-    fun `randomOrNull returns the correct value`() {
-        val testData = listOf(
-            846, 68466, 247, 381, 3, 484, 11, 180
-        )
-
-        val testRandom = IntListRandom(
-            listOf(
-                3, 3, 7, 1, 3, 5, 0, 1, 5
-            )
-        )
-
-        assertEquals(3, testData.randomOrNull(testRandom))
-    }
-
-    @Test
-    fun `randomOrNull returns null from an empty list`() {
-        val testData = emptyList<Int>()
-
-        assertNull(testData.randomOrNull())
-        assertNull(testData.randomOrNull(Random.Default))
-    }
-
-    @Test
-    fun `randomOrNull returns null from a null list`() {
-        val testData: List<Int>? = null
-
-        assertNull(testData.randomOrNull())
-        assertNull(testData.randomOrNull(Random.Default))
-    }
-
     private data class PrintTestItem(
         val value: String
     ) {

@@ -81,6 +81,111 @@ class CollectionExtensionsTest {
         assertTrue(filteredMap.isEmpty())
     }
 
+    @Test
+    fun `getOrZero on Int Map with value returns proper value`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3,
+            validKey to 2,
+            "invalidAlso" to 8,
+        )
+
+        assertEquals(2, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on Int Map without value returns zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3,
+            "anotherInvalid" to 2,
+            "invalidAlso" to 8,
+        )
+
+        assertEquals(0, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on empty Int Map return zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = emptyMap<String, Int>()
+
+        assertEquals(0, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on Double Map with value returns proper value`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3.2,
+            validKey to 2.3,
+            "invalidAlso" to 8.15,
+        )
+
+        assertEquals(2.3, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on Double Map without value returns zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3.2,
+            "anotherInvalid" to 2.3,
+            "invalidAlso" to 8.15,
+        )
+
+        assertEquals(0.0, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on empty Double Map return zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = emptyMap<String, Double>()
+
+        assertEquals(0.0, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrIntZero on Double Map with value returns proper value`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3.2,
+            validKey to 2.0,
+            "invalidAlso" to 8.15,
+        )
+
+        assertEquals(2, testMap.getOrIntZero(validKey))
+    }
+
+    @Test
+    fun `getOrIntZero on Double Map without value returns zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3.2,
+            "anotherInvalid" to 2.3,
+            "invalidAlso" to 8.15,
+        )
+
+        assertEquals(0, testMap.getOrIntZero(validKey))
+    }
+
+    @Test
+    fun `getOrIntZero on empty Double Map return zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = emptyMap<String, Double>()
+
+        assertEquals(0, testMap.getOrIntZero(validKey))
+    }
+
     private data class PrintTestItem(
         val value: String
     ) {

@@ -2,7 +2,7 @@ plugins {
     `maven-publish`
     `java-library`
 
-    id("org.jetbrains.kotlin.jvm") version "1.5.31"
+    id("org.jetbrains.kotlin.jvm") version "1.7.10"
 
     // Code coverage from Kover
     id("org.jetbrains.kotlinx.kover") version "0.4.2"
@@ -14,7 +14,7 @@ repositories {
 }
 
 group = "dev.mfazio.utils"
-version = "1.0.3"
+version = "1.0.4"
 
 val artifactName = project.name
 val artifactGroup = project.group.toString()
@@ -56,7 +56,7 @@ tasks.test {
     suites {
         // Configure the built-in test suite
         val test by getting(JvmTestSuite::class) {
-            // Use Kotlin Test test framework
+            // Use Kotlin Test framework
             useKotlinTest()
         }
     }

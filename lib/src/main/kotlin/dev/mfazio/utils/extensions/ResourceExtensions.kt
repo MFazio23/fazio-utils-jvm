@@ -14,3 +14,7 @@ fun <T : Any> KClass<T>.getResourceAsListOfStrings(path: String): List<String> {
 
     return result ?: emptyList()
 }
+
+fun getResourceAsStream(path: String): InputStream? = {}::class.getResourceAsStream(path)
+fun getResourceAsString(path: String): String? = {}::class.getResourceAsString(path)
+fun getResourceAsListOfStrings(path: String): List<String> = {}::class.getResourceAsListOfStrings(path)

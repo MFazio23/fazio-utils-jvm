@@ -1,8 +1,6 @@
 package dev.mfazio.utils.extensions
 
 import com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOutNormalized
-import dev.mfazio.utils.random.IntListRandom
-import kotlin.random.Random
 import kotlin.test.*
 
 class CollectionExtensionsTest {
@@ -178,12 +176,54 @@ class CollectionExtensionsTest {
     }
 
     @Test
-    fun `getOrIntZero on empty Double Map return zero`() {
+    fun `getOrIntZero on empty Double Map returns zero`() {
         val validKey = "thisIsValid"
 
         val testMap = emptyMap<String, Double>()
 
         assertEquals(0, testMap.getOrIntZero(validKey))
+    }
+
+    @Test
+    fun `getOrDefault, list of Int, valid index returns value`() {
+        val testList = listOf(3, 6, 9, 1, 4)
+
+        assertEquals(9, testList.getOrDefault(2, 23))
+    }
+
+    @Test
+    fun `getOrDefault, list of Int, invalid index returns default`() {
+        val testList = listOf(3, 6, 9, 1, 4)
+
+        assertEquals(23, testList.getOrDefault(7, 23))
+    }
+
+    @Test
+    fun `getOrDefault, empty list of Int returns default`() {
+        val testList = emptyList<Int>()
+
+        assertEquals(23, testList.getOrDefault(2, 23))
+    }
+
+    @Test
+    fun `getOrDefault, list of Double, valid index returns value`() {
+        val testList = listOf(3.0, 7.0, 1.0, 9.0, 4.0)
+
+        assertEquals(7.0, testList.getOrDefault(1, 23.0))
+    }
+
+    @Test
+    fun `getOrDefault, list of Double, invalid index returns double default`() {
+        val testList = listOf(3.0, 7.0, 1.0, 9.0, 4.0)
+
+        assertEquals(23.0, testList.getOrDefault(31, 23.0))
+    }
+
+    @Test
+    fun `getOrDefault, list of Double, invalid index returns Int default`() {
+        val testList = listOf(3.0, 7.0, 1.0, 9.0, 4.0)
+
+        assertEquals(23, testList.getOrDefault(31, 23))
     }
 
     private data class PrintTestItem(

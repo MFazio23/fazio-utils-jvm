@@ -14,7 +14,7 @@ repositories {
 }
 
 group = "dev.mfazio.utils"
-version = "1.0.6"
+version = "1.0.7"
 
 val artifactName = project.name
 val artifactGroup = project.group.toString()

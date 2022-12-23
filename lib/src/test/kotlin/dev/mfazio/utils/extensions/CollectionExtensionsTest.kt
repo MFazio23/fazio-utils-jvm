@@ -34,6 +34,24 @@ class CollectionExtensionsTest {
     }
 
     @Test
+    fun `printEach with extra lines prints each toString() value on objects plus spacing`() {
+        val items = listOf(
+            PrintTestItem("This"),
+            PrintTestItem("also"),
+            PrintTestItem("should"),
+            PrintTestItem("print"),
+            PrintTestItem("each"),
+            PrintTestItem("item"),
+        )
+
+        val result = tapSystemOutNormalized {
+            items.printEach(2)
+        }.trim()
+
+        assertEquals(items.joinToString("\n\n\n"), result)
+    }
+
+    @Test
     fun `filterNotNullValues removes entries with a null value`() {
         val includedKey = "included"
         val excludedKey = "excluded"

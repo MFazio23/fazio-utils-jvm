@@ -4,7 +4,7 @@ import kotlin.test.*
 
 class ResourceExtensionsTest {
     @Test
-    fun `getResourceAsStream successfully returns an InputStream`() {
+    fun `KClass getResourceAsStream successfully returns an InputStream`() {
         val inputStream = ResourceExtensionsTest::class.getResourceAsStream(fileName)
 
         assertNotNull(inputStream)
@@ -15,36 +15,82 @@ class ResourceExtensionsTest {
     }
 
     @Test
-    fun `getResourceAsStream doesn't error out when the resource cannot be found`() {
+    fun `KClass getResourceAsStream doesn't error out when the resource cannot be found`() {
         val inputStream = ResourceExtensionsTest::class.getResourceAsStream(invalidFileName)
 
         assertNull(inputStream)
     }
 
     @Test
-    fun `getResourceAsString successfully returns a String`() {
+    fun `KClass getResourceAsString successfully returns a String`() {
         val inputString = ResourceExtensionsTest::class.getResourceAsString(fileName)
 
         assertEquals(fileContents, inputString)
     }
 
     @Test
-    fun `getResourceAsString doesn't error out when the resource cannot be found`() {
+    fun `KClass getResourceAsString doesn't error out when the resource cannot be found`() {
         val inputStream = ResourceExtensionsTest::class.getResourceAsString(invalidFileName)
 
         assertNull(inputStream)
     }
 
     @Test
-    fun `getResourceAsListOfStrings successfully returns a List of Strings`() {
+    fun `KClass getResourceAsListOfStrings successfully returns a List of Strings`() {
         val inputList = ResourceExtensionsTest::class.getResourceAsListOfStrings(listFileName)
 
         assertContentEquals(listFileContents, inputList)
     }
 
     @Test
+    fun `KClass getResourceAsListOfStrings returns an empty list when the resource cannot be found`() {
+        val inputList = getResourceAsListOfStrings(invalidFileName)
+
+        assertEquals(emptyList(), inputList)
+    }
+
+    @Test
+    fun `getResourceAsStream successfully returns an InputStream`() {
+        val inputStream = getResourceAsStream(fileName)
+
+        assertNotNull(inputStream)
+
+        val inputString = inputStream.bufferedReader().readText()
+
+        assertEquals(fileContents, inputString)
+    }
+
+    @Test
+    fun `getResourceAsStream doesn't error out when the resource cannot be found`() {
+        val inputStream = getResourceAsStream(invalidFileName)
+
+        assertNull(inputStream)
+    }
+
+    @Test
+    fun `getResourceAsString successfully returns a String`() {
+        val inputString = getResourceAsString(fileName)
+
+        assertEquals(fileContents, inputString)
+    }
+
+    @Test
+    fun `getResourceAsString doesn't error out when the resource cannot be found`() {
+        val inputStream = getResourceAsString(invalidFileName)
+
+        assertNull(inputStream)
+    }
+
+    @Test
+    fun `getResourceAsListOfStrings successfully returns a List of Strings`() {
+        val inputList = getResourceAsListOfStrings(listFileName)
+
+        assertContentEquals(listFileContents, inputList)
+    }
+
+    @Test
     fun `getResourceAsListOfStrings returns an empty list when the resource cannot be found`() {
-        val inputList = ResourceExtensionsTest::class.getResourceAsListOfStrings(invalidFileName)
+        val inputList = getResourceAsListOfStrings(invalidFileName)
 
         assertEquals(emptyList(), inputList)
     }

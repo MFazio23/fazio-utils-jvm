@@ -1,10 +1,7 @@
 package dev.mfazio.utils.extensions
 
 import com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOutNormalized
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class CollectionExtensionsTest {
     @Test
@@ -34,6 +31,24 @@ class CollectionExtensionsTest {
         }.trim()
 
         assertEquals(items.joinToString("\n"), result)
+    }
+
+    @Test
+    fun `printEach with extra lines prints each toString() value on objects plus spacing`() {
+        val items = listOf(
+            PrintTestItem("This"),
+            PrintTestItem("also"),
+            PrintTestItem("should"),
+            PrintTestItem("print"),
+            PrintTestItem("each"),
+            PrintTestItem("item"),
+        )
+
+        val result = tapSystemOutNormalized {
+            items.printEach(2)
+        }.trim()
+
+        assertEquals(items.joinToString("\n\n\n"), result)
     }
 
     @Test
@@ -80,6 +95,153 @@ class CollectionExtensionsTest {
         val filteredMap = emptyMap<String, Int?>().filterNotNullValues()
 
         assertTrue(filteredMap.isEmpty())
+    }
+
+    @Test
+    fun `getOrZero on Int Map with value returns proper value`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3,
+            validKey to 2,
+            "invalidAlso" to 8,
+        )
+
+        assertEquals(2, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on Int Map without value returns zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3,
+            "anotherInvalid" to 2,
+            "invalidAlso" to 8,
+        )
+
+        assertEquals(0, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on empty Int Map return zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = emptyMap<String, Int>()
+
+        assertEquals(0, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on Double Map with value returns proper value`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3.2,
+            validKey to 2.3,
+            "invalidAlso" to 8.15,
+        )
+
+        assertEquals(2.3, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on Double Map without value returns zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3.2,
+            "anotherInvalid" to 2.3,
+            "invalidAlso" to 8.15,
+        )
+
+        assertEquals(0.0, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrZero on empty Double Map return zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = emptyMap<String, Double>()
+
+        assertEquals(0.0, testMap.getOrZero(validKey))
+    }
+
+    @Test
+    fun `getOrIntZero on Double Map with value returns proper value`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3.2,
+            validKey to 2.0,
+            "invalidAlso" to 8.15,
+        )
+
+        assertEquals(2, testMap.getOrIntZero(validKey))
+    }
+
+    @Test
+    fun `getOrIntZero on Double Map without value returns zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = mapOf(
+            "invalid" to 3.2,
+            "anotherInvalid" to 2.3,
+            "invalidAlso" to 8.15,
+        )
+
+        assertEquals(0, testMap.getOrIntZero(validKey))
+    }
+
+    @Test
+    fun `getOrIntZero on empty Double Map returns zero`() {
+        val validKey = "thisIsValid"
+
+        val testMap = emptyMap<String, Double>()
+
+        assertEquals(0, testMap.getOrIntZero(validKey))
+    }
+
+    @Test
+    fun `getOrDefault, list of Int, valid index returns value`() {
+        val testList = listOf(3, 6, 9, 1, 4)
+
+        assertEquals(9, testList.getOrDefault(2, 23))
+    }
+
+    @Test
+    fun `getOrDefault, list of Int, invalid index returns default`() {
+        val testList = listOf(3, 6, 9, 1, 4)
+
+        assertEquals(23, testList.getOrDefault(7, 23))
+    }
+
+    @Test
+    fun `getOrDefault, empty list of Int returns default`() {
+        val testList = emptyList<Int>()
+
+        assertEquals(23, testList.getOrDefault(2, 23))
+    }
+
+    @Test
+    fun `getOrDefault, list of Double, valid index returns value`() {
+        val testList = listOf(3.0, 7.0, 1.0, 9.0, 4.0)
+
+        assertEquals(7.0, testList.getOrDefault(1, 23.0))
+    }
+
+    @Test
+    fun `getOrDefault, list of Double, invalid index returns double default`() {
+        val testList = listOf(3.0, 7.0, 1.0, 9.0, 4.0)
+
+        assertEquals(23.0, testList.getOrDefault(31, 23.0))
+    }
+
+    @Test
+    fun `getOrDefault, list of Double, invalid index returns Int default`() {
+        val testList = listOf(3.0, 7.0, 1.0, 9.0, 4.0)
+
+        assertEquals(23, testList.getOrDefault(31, 23))
     }
 
     private data class PrintTestItem(

@@ -2,10 +2,10 @@ plugins {
     `maven-publish`
     `java-library`
 
-    id("org.jetbrains.kotlin.jvm") version "1.5.31"
+    id("org.jetbrains.kotlin.jvm") version "1.6.21"
 
     // Code coverage from Kover
-    id("org.jetbrains.kotlinx.kover") version "0.4.2"
+    id("org.jetbrains.kotlinx.kover") version "0.7.4"
 }
 
 repositories {
@@ -14,7 +14,7 @@ repositories {
 }
 
 group = "dev.mfazio.utils"
-version = "1.0.1"
+version = "1.0.2"
 
 val artifactName = project.name
 val artifactGroup = project.group.toString()

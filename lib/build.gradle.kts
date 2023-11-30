@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.7.10"
 
     // Code coverage from Kover
-    id("org.jetbrains.kotlinx.kover") version "0.4.2"
+    id("org.jetbrains.kotlinx.kover") version "0.7.4"
 }
 
 repositories {

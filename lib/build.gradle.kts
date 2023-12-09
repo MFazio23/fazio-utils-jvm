@@ -14,7 +14,7 @@ repositories {
 }
 
 group = "dev.mfazio.utils"
-version = "1.0.7"
+version = "1.1.0"
 
 val artifactName = project.name
 val artifactGroup = project.group.toString()
@@ -51,16 +51,6 @@ tasks.jar {
 tasks.test {
     useJUnitPlatform()
 }
-
-/*testing {
-    suites {
-        // Configure the built-in test suite
-        val test by getting(JvmTestSuite::class) {
-            // Use Kotlin Test framework
-            useKotlinTest()
-        }
-    }
-}*/
 
 val sourcesJar by tasks.creating(Jar::class) {
     archiveClassifier.set("sources")

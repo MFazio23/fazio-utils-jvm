@@ -93,4 +93,37 @@ class NumberExtensionsTest {
     fun `A non-integer with three+ significant digits rounds and formats to two decimals with toTwoDigits()`() {
         assertEquals("17.46", 17.459989.toTwoDigits())
     }
+
+    @Test
+    fun `An Int orZero() returns the Int if not null`() {
+        assertEquals(5, 5.orZero())
+    }
+
+    @Test
+    fun `An Int orZero() returns zero if null`() {
+        val nullInt: Int? = null
+        assertEquals(0, nullInt.orZero())
+    }
+
+    @Test
+    fun `A Double orZero() returns the Double if not null`() {
+        assertEquals(10.0, 10.0.orZero())
+    }
+
+    @Test
+    fun `A Double orZero() returns zero if null`() {
+        val nullDouble: Double? = null
+        assertEquals(0.0, nullDouble.orZero())
+    }
+
+    @Test
+    fun `A Float orZero() returns the Float if not null`() {
+        assertEquals(23.0F, 23.0F.orZero())
+    }
+
+    @Test
+    fun `A Float orZero() returns zero if null`() {
+        val nullFloat: Float? = null
+        assertEquals(0.0F, nullFloat.orZero())
+    }
 }

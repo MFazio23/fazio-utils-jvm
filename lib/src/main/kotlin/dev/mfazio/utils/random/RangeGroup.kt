@@ -3,7 +3,7 @@ package dev.mfazio.utils.random
 import kotlin.random.Random
 
 data class RangeGroup<T>(
-    val items: List<RangeItem<T>>,
+    val items: Collection<RangeItem<T>>,
     override val chance: Double? = null,
     val total: Double = defaultTotal,
     private val random: Random = Random.Default,

@@ -244,6 +244,76 @@ class CollectionExtensionsTest {
         assertEquals(23, testList.getOrDefault(31, 23))
     }
 
+    @Test
+    fun `crossProduct returns all pairs of items from two collections`() {
+        val firstCollection = listOf(1, 2, 3)
+        val secondCollection = listOf(4, 5, 6)
+
+        val result = firstCollection.crossProduct(secondCollection)
+
+        assertEquals(9, result.size)
+        assertTrue(result.contains(1 to 4))
+        assertTrue(result.contains(1 to 5))
+        assertTrue(result.contains(1 to 6))
+        assertTrue(result.contains(2 to 4))
+        assertTrue(result.contains(2 to 5))
+        assertTrue(result.contains(2 to 6))
+        assertTrue(result.contains(3 to 4))
+        assertTrue(result.contains(3 to 5))
+        assertTrue(result.contains(3 to 6))
+    }
+
+    @Test
+    fun `crossProduct returns all pairs of items from two collections of different types`() {
+        val firstCollection = listOf("A", "B", "C")
+        val secondCollection = listOf(1, 2, 3)
+
+        val result = firstCollection.crossProduct(secondCollection)
+
+        assertEquals(9, result.size)
+        assertTrue(result.contains("A" to 1))
+        assertTrue(result.contains("A" to 2))
+        assertTrue(result.contains("A" to 3))
+        assertTrue(result.contains("B" to 1))
+        assertTrue(result.contains("B" to 2))
+        assertTrue(result.contains("B" to 3))
+        assertTrue(result.contains("C" to 1))
+        assertTrue(result.contains("C" to 2))
+        assertTrue(result.contains("C" to 3))
+    }
+
+    @Test
+    fun `crossProduct returns all pairs of items from two collections of different types with different sizes`() {
+        val firstCollection = listOf("A", "B")
+        val secondCollection = listOf(1, 2, 3)
+
+        val result = firstCollection.crossProduct(secondCollection)
+
+        assertEquals(6, result.size)
+        assertTrue(result.contains("A" to 1))
+        assertTrue(result.contains("A" to 2))
+        assertTrue(result.contains("A" to 3))
+        assertTrue(result.contains("B" to 1))
+        assertTrue(result.contains("B" to 2))
+        assertTrue(result.contains("B" to 3))
+    }
+
+    @Test
+    fun `crossProduct returns all pairs of items from two collections of different types with different sizes (reversed)`() {
+        val firstCollection = listOf("A", "B", "C")
+        val secondCollection = listOf(1, 2)
+
+        val result = firstCollection.crossProduct(secondCollection)
+
+        assertEquals(6, result.size)
+        assertTrue(result.contains("A" to 1))
+        assertTrue(result.contains("A" to 2))
+        assertTrue(result.contains("B" to 1))
+        assertTrue(result.contains("B" to 2))
+        assertTrue(result.contains("C" to 1))
+        assertTrue(result.contains("C" to 2))
+    }
+
     private data class PrintTestItem(
         val value: String
     ) {

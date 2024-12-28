@@ -20,6 +20,6 @@ fun findLCM(a: Long, b: Long): Long {
     return maxLCM
 }
 
-fun List<Int>.findLCM() = this.fold(1) { lcm, num -> findLCM(lcm, num) }
+fun Collection<Int>.findLCM() = this.fold(1) { lcm, num -> findLCM(lcm, num) }
 
-fun List<Long>.findLCM() = this.fold(1L) { lcm, num -> findLCM(lcm, num) }
+fun Collection<Long>.findLCM() = this.fold(1L) { lcm, num -> findLCM(lcm, num) }

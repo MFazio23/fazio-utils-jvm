@@ -6,10 +6,12 @@ import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 
 fun LocalDateTime.isBetween(
-    start: LocalDateTime = LocalDateTime.now(),
-    end: LocalDateTime = LocalDateTime.now()
-): Boolean =
-    (this.isAfter(start) || this.isEqual(start)) && (this.isBefore(end) || this.isEqual(end))
+    start: LocalDateTime? = null,
+    end: LocalDateTime? = null
+): Boolean {
+    val now = LocalDateTime.now()
+    return this in (start ?: now)..(end ?: now)
+}
 
 fun LocalDate.getOrdinalSuffix() = this.dayOfMonth.let { day ->
     if (day in 4..20) "th"

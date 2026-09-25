@@ -44,7 +44,7 @@ class CountingMap<K>(private val delegate: MutableMap<K, Int> = mutableMapOf()) 
         other.forEach { decrement(it.key, it.value) }
     }
 
-    override fun get(key: K): Int = getOrZero(key)
+    override fun get(key: K): Int = delegate[key] ?: 0
     operator fun set(key: K, count: Int) {
         delegate[key] = count
     }
@@ -63,7 +63,9 @@ class CountingMap<K>(private val delegate: MutableMap<K, Int> = mutableMapOf()) 
             CountingMap(map.toMutableMap())
 
         fun <K> countsOf(items: Iterable<K>): CountingMap<K> =
-            CountingMap(items.groupingBy { it }.eachCount().toMutableMap())
+            CountingMap<K>().apply {
+                items.forEach { increment(it) }
+            }
     }
 }
 

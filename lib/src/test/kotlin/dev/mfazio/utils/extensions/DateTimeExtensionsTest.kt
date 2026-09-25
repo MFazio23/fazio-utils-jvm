@@ -56,6 +56,17 @@ class DateTimeExtensionsTest {
     }
 
     @Test
+    fun `isBetween() is true with explicit null start or end defaulting to now`() {
+        val start = LocalDateTime.now().minusDays(6)
+        val end = LocalDateTime.now().plusHours(14)
+        val dateBeforeNow = LocalDateTime.now().minusMinutes(64)
+        val dateAfterNow = LocalDateTime.now().plusMinutes(64)
+
+        assertTrue(dateBeforeNow.isBetween(start = start, end = null))
+        assertTrue(dateAfterNow.isBetween(start = null, end = end))
+    }
+
+    @Test
     fun `isBetween() is false when date is before start date`() {
         val start = LocalDateTime.now().minusDays(6)
         val end = LocalDateTime.now().plusHours(14)

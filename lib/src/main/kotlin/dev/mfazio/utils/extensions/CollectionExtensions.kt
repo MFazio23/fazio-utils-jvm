@@ -27,3 +27,11 @@ fun <T> Collection<T>.crossProduct(otherCollection: Collection<T>): List<Pair<T,
             first to second
         }
     }
+
+fun <E> MutableList<E>.removeAndReturn(filter: (E) -> Boolean): List<E> =
+    this.filter(filter).also { items -> this.removeAll(items) }
+
+fun <E> MutableList<E>.removeFirstAndReturn(filter: (E) -> Boolean): E? =
+    this.indexOfFirst(filter).let { index ->
+        if (index != -1) this.removeAt(index) else null
+    }

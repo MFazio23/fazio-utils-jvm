@@ -52,6 +52,47 @@ class CollectionExtensionsTest {
     }
 
     @Test
+    fun `map printEach prints each string value`() {
+        val items = mapOf("This" to "That", "Should" to "Yes", "All" to "Every", "Print" to "Out")
+
+        val result = tapSystemOutNormalized {
+            items.printEach()
+        }.trim()
+
+        assertEquals(items.entries.joinToString("\n"), result)
+    }
+
+    @Test
+    fun `map printEach prints each toString() value on objects`() {
+        val items = mapOf(
+            PrintTestItem("This") to PrintTestItem("also"),
+            PrintTestItem("should") to PrintTestItem("print"),
+            PrintTestItem("each") to PrintTestItem("item"),
+        )
+
+        val result = tapSystemOutNormalized {
+            items.printEach()
+        }.trim()
+
+        assertEquals(items.entries.joinToString("\n"), result)
+    }
+
+    @Test
+    fun `map printEach with extra lines prints each toString() value on objects plus spacing`() {
+        val items = mapOf(
+            PrintTestItem("This") to PrintTestItem("also"),
+            PrintTestItem("should") to PrintTestItem("print"),
+            PrintTestItem("each") to PrintTestItem("item"),
+        )
+
+        val result = tapSystemOutNormalized {
+            items.printEach(2)
+        }.trim()
+
+        assertEquals(items.entries.joinToString("\n\n\n"), result)
+    }
+
+    @Test
     fun `filterNotNullValues removes entries with a null value`() {
         val includedKey = "included"
         val excludedKey = "excluded"
@@ -312,6 +353,46 @@ class CollectionExtensionsTest {
         assertTrue(result.contains("B" to 2))
         assertTrue(result.contains("C" to 1))
         assertTrue(result.contains("C" to 2))
+    }
+
+    @Test
+    fun `removeAndReturn removes all matching items and returns them`() {
+        val list = mutableListOf(1, 2, 3, 4, 5, 6)
+
+        val removed = list.removeAndReturn { it % 2 == 0 }
+
+        assertEquals(listOf(2, 4, 6), removed)
+        assertEquals(listOf(1, 3, 5), list)
+    }
+
+    @Test
+    fun `removeAndReturn returns empty list when no items match`() {
+        val list = mutableListOf(1, 3, 5)
+
+        val removed = list.removeAndReturn { it % 2 == 0 }
+
+        assertTrue(removed.isEmpty())
+        assertEquals(listOf(1, 3, 5), list)
+    }
+
+    @Test
+    fun `removeFirstAndReturn removes only the first matching item and returns it`() {
+        val list = mutableListOf("apple", "banana", "apricot", "avocado")
+
+        val removed = list.removeFirstAndReturn { it.startsWith("a") }
+
+        assertEquals("apple", removed)
+        assertEquals(listOf("banana", "apricot", "avocado"), list)
+    }
+
+    @Test
+    fun `removeFirstAndReturn returns null when no items match`() {
+        val list = mutableListOf("banana", "cherry")
+
+        val removed = list.removeFirstAndReturn { it.startsWith("a") }
+
+        assertNull(removed)
+        assertEquals(listOf("banana", "cherry"), list)
     }
 
     private data class PrintTestItem(

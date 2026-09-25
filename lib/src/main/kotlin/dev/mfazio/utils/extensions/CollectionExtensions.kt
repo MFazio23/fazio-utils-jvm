@@ -1,11 +1,13 @@
 package dev.mfazio.utils.extensions
 
-fun <T> Collection<T>.printEach(extraLines: Int = 0) = this.forEach {
+fun <T> Iterable<T>.printEach(extraLines: Int = 0) = this.forEach {
     println(it)
     repeat(extraLines) {
         println()
     }
 }
+
+fun <K, V> Map<K, V>.printEach(extraLines: Int = 0) = this.entries.printEach(extraLines = extraLines)
 
 //From here: https://youtrack.jetbrains.com/issue/KT-4734
 fun <K, V> Map<K, V?>.filterNotNullValues(): Map<K, V> =

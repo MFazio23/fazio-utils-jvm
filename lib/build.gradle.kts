@@ -14,7 +14,7 @@ repositories {
 }
 
 group = "dev.mfazio.utils"
-version = "1.1.2"
+version = "1.2.0"
 
 val artifactName = project.name
 val artifactGroup = project.group.toString()
@@ -31,10 +31,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     testImplementation(kotlin("test"))
-    testImplementation ("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testImplementation("com.github.stefanbirkner:system-lambda:1.2.1")
 
-    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 }
 
 tasks.jar {
@@ -53,6 +53,7 @@ tasks.test {
 }
 
 val sourcesJar by tasks.creating(Jar::class) {
+    description = "creating JAR file"
     archiveClassifier.set("sources")
     from(sourceSets.getByName("main").allSource)
 }

@@ -56,8 +56,10 @@ class CountingMap<K>(private val delegate: MutableMap<K, Int> = mutableMapOf()) 
     override fun hashCode(): Int = delegate.hashCode()
 
     companion object {
-        fun <K> fromList(initialList: List<K>): CountingMap<K> =
-            countsOf(initialList)
+        fun <K> fromList(initialList: List<K>, startingCount: Int? = null): CountingMap<K> =
+            startingCount?.let {
+                fromMap(initialList.associateWith { startingCount })
+            } ?: countsOf(initialList)
 
         fun <K> fromMap(map: Map<K, Int>): CountingMap<K> =
             CountingMap(map.toMutableMap())

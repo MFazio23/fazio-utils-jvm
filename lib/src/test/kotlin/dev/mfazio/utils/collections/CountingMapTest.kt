@@ -15,14 +15,44 @@ class CountingMapTest {
     }
 
     @Test
-    fun `fromList counts occurrences of items`() {
+    fun `fromList counts occurrences of items by default`() {
         val items = listOf("apple", "banana", "apple", "cherry", "apple", "banana")
         val countingMap = CountingMap.fromList(items)
+        val countingMapExplicitNull = CountingMap.fromList(items, startingCount = null)
 
         assertEquals(3, countingMap["apple"])
         assertEquals(2, countingMap["banana"])
         assertEquals(1, countingMap["cherry"])
         assertEquals(0, countingMap["orange"])
+
+        assertEquals(countingMap, countingMapExplicitNull)
+    }
+
+    @Test
+    fun `fromList with startingCount = 0 initializes all keys with 0`() {
+        val items = listOf("apple", "banana", "apple", "cherry")
+        val countingMap = CountingMap.fromList(items, startingCount = 0)
+
+        assertEquals(3, countingMap.size)
+        assertTrue(countingMap.containsKey("apple"))
+        assertTrue(countingMap.containsKey("banana"))
+        assertTrue(countingMap.containsKey("cherry"))
+        assertEquals(0, countingMap["apple"])
+        assertEquals(0, countingMap["banana"])
+        assertEquals(0, countingMap["cherry"])
+
+        countingMap += "apple"
+        assertEquals(1, countingMap["apple"])
+    }
+
+    @Test
+    fun `fromList with custom startingCount initializes all keys with specified count`() {
+        val items = listOf("gold", "silver", "bronze")
+        val countingMap = CountingMap.fromList(items, startingCount = 10)
+
+        assertEquals(10, countingMap["gold"])
+        assertEquals(10, countingMap["silver"])
+        assertEquals(10, countingMap["bronze"])
     }
 
     @Test
